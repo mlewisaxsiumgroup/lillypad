@@ -101,19 +101,19 @@
   let state=STATE.ATTRACT;
   let score=0,best=loadBest(),lives=3,level=1;
   let lanes=[], homes=HOME_SLOT_COLS.map(c=>({col:c,filled:false}));
-  let lifeTimer=0; const LIFE_TIME=40;
+  let lifeTimer=0; const LIFE_TIME=50;
   let highestRow=START_ROW, deathFx=0, demoCooldown=0, flashTimer=0;
   const frog={x:START_COL,y:START_ROW,anim:null,dead:false};
 
   const CAR_COLORS=['#ef5d6a','#f29e4c','#e8d44d','#b07cd6','#5ad1c8'];
 
   function buildLanes(lvl){
-    lanes=[]; const sp=1+(lvl-1)*0.18;
+    lanes=[]; const sp=1+(lvl-1)*0.12;
     const road=[
-      {row:6,dir:1,speed:62,len:1,gap:3.4,truck:false},
-      {row:7,dir:-1,speed:88,len:1,gap:3.0,truck:false},
-      {row:8,dir:1,speed:50,len:2,gap:4.2,truck:true},
-      {row:9,dir:-1,speed:108,len:1,gap:3.6,truck:false},
+      {row:6,dir:1,speed:54,len:1,gap:4.6,truck:false},
+      {row:7,dir:-1,speed:70,len:1,gap:4.4,truck:false},
+      {row:8,dir:1,speed:46,len:2,gap:5.8,truck:true},
+      {row:9,dir:-1,speed:82,len:1,gap:4.9,truck:false},
     ];
     road.forEach((c,i)=>lanes.push(makeLane({type:'car',row:c.row,dir:c.dir,speed:c.speed*sp,
       objLen:c.len*TILE,gap:c.gap*TILE,color:CAR_COLORS[i%CAR_COLORS.length],truck:c.truck})));
