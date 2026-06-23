@@ -145,10 +145,15 @@
   }
   function landHop(){
     frog.x=Math.round(frog.anim.toX); frog.y=frog.anim.toY; frog.anim=null;
-    if(frog.y<highestRow){ score+=10*(highestRow-frog.y); highestRow=frog.y; updateHud(); }
+    if(state===STATE.PLAY && frog.y<highestRow){ score+=10*(highestRow-frog.y); highestRow=frog.y; updateHud(); }
     if(frog.y===HOME_ROW) resolveHome();
   }
   function resolveHome(){
+    if(state!==STATE.PLAY){ // attract/demo: just loop, never touch real game state
+      const s=homes.find(h=>h.col===Math.round(frog.x)&&!h.filled);
+      if(s){ s.filled=true; if(homes.every(h=>h.filled)) homes.forEach(h=>h.filled=false); }
+      respawn(true); return;
+    }
     const slot=homes.find(h=>h.col===Math.round(frog.x)&&!h.filled);
     if(slot){ slot.filled=true; score+=120; updateHud();
       if(homes.every(h=>h.filled)) nextLevel(); else respawn(false);
@@ -278,7 +283,7 @@
     if(playing){ lifeTimer-=dt; if(lifeTimer<=0) die();
       el.time.style.width=Math.max(0,(lifeTimer/LIFE_TIME)*100)+'%'; }
     if(deathFx>0) deathFx-=dt;
-    if(flashTimer>0){ flashTimer-=dt; if(flashTimer<=0){ el.overlay.classList.add('hidden'); el.startBtn.style.display=''; } }
+    if(flashTimer>0){ flashTimer-=dt; if(flashTimer<=0){ el.startBtn.style.display=''; if(state===STATE.PLAY) el.overlay.classList.add('hidden'); } }
   }
 
   // ---- render ----
